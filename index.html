@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Plan2Map</title>
+    <meta name="description" content="Plan2Map: A Multimodal Benchmark for Document-Grounded Geospatial Boundary Reconstruction from Planning Records">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <!-- Bootstrap CSS (CDN — swap to local vendor path if you mirror the Articulate3D repo structure) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google fonts - Roboto (matches Articulate3D page) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+
+    <!-- If you copy this into the articulate3d_page_deb repo structure, keep these instead of the CDN above:
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.oxfordblue.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="css/custom.css">
+    -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            color: #212529;
+            background: #ffffff;
+        }
+        .bar { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+        .padding-small { padding-top: 2rem; padding-bottom: 2rem; }
+        .bg-white { background-color: #ffffff !important; }
+        .mb-small { margin-bottom: 1rem; }
+        .mb-medium { margin-bottom: 2rem; }
+        .no-mb { margin-bottom: 0 !important; }
+        h1 { font-weight: 700; font-size: 2.25rem; line-height: 1.25; }
+        h2 { font-weight: 700; font-size: 1.75rem; margin-top: 0.5rem; margin-bottom: 1rem; }
+        h3 { font-weight: 700; font-size: 1.25rem; margin-top: 1rem; }
+        .lead { font-size: 1.15rem; font-weight: 300; line-height: 1.6; }
+        .img-fluid { max-width: 100%; height: auto; }
+
+        /* Numbered steps list (matches Articulate3D) */
+        .steps-list {
+            list-style-type: none;
+            padding-left: 20px;
+            counter-reset: step-counter;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+        }
+        .steps-list > li {
+            counter-increment: step-counter;
+            margin-bottom: 0.4rem;
+        }
+        .steps-list > li::before {
+            content: counter(step-counter) ". ";
+            font-weight: bold;
+        }
+        .steps-list ol {
+            list-style-type: none;
+            counter-reset: sub-step-counter;
+            padding-left: 30px;
+            margin-top: 0.4rem;
+        }
+        .steps-list ol li::before {
+            counter-increment: sub-step-counter;
+            content: counter(step-counter) "." counter(sub-step-counter) ". ";
+            font-weight: normal;
+        }
+
+        /* Results table */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 1rem;
+        }
+        .results-table th, .results-table td {
+            padding: 0.6rem 0.9rem;
+            border-bottom: 1px solid #e6e6e6;
+            text-align: center;
+        }
+        .results-table th {
+            background-color: #f6f6f6;
+            font-weight: 700;
+        }
+        .results-table tr.ours { background-color: #eef5ff; font-weight: 600; }
+        .results-table td.method { text-align: left; }
+
+        /* BibTeX block */
+        pre.bibtex {
+            background-color: #f6f6f6;
+            border: 1px solid #e6e6e6;
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+
+        footer {
+            background: #1e2327;
+            color: #cfd2d6;
+            padding: 1.5rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        /* ============ Dataset examples carousel ============ */
+        .dataset-carousel {
+            max-width: 520px;
+            margin: 1.25rem auto 0.5rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+            border: 1px solid #d9dee5;
+            box-shadow: 0 4px 18px rgba(20, 30, 50, 0.07);
+        }
+        .dataset-carousel .carousel-inner {
+            border-radius: 12px;
+        }
+        .dataset-carousel .carousel-item {
+            padding: 0.9rem 0.9rem 2.25rem 0.9rem;
+            min-height: 340px;
+        }
+        .dataset-carousel .slide-image-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e3e7ec;
+            padding: 0.5rem;
+            min-height: 240px;
+        }
+        .dataset-carousel .slide-image-wrap img {
+            max-height: 260px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .dataset-carousel .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 0.7rem;
+        }
+        .dataset-carousel .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            background: #ffffff;
+            border: 1px solid #d9dee5;
+            color: #2a2f36;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .dataset-carousel .meta-badge.shape-easy   { background: #e8f7ec; border-color: #bfe5c8; color: #1f7a3a; }
+        .dataset-carousel .meta-badge.shape-medium { background: #fff8e1; border-color: #f1dfa2; color: #8a6d10; }
+        .dataset-carousel .meta-badge.shape-hard   { background: #fdebec; border-color: #f3c2c5; color: #a32128; }
+        .dataset-carousel .meta-badge.paper-white  { background: #f5f7fa; border-color: #d9dee5; color: #2a2f36; }
+        .dataset-carousel .meta-badge.paper-yellow { background: #fffae6; border-color: #ecdca0; color: #6b5410; }
+        .dataset-carousel .meta-badge.quality-good { background: #e7f5ee; border-color: #b9dfc8; color: #1d6d3a; }
+        .dataset-carousel .meta-badge.quality-bad  { background: #fff2e6; border-color: #f1c89a; color: #8a4a10; }
+        .dataset-carousel .carousel-control-prev,
+        .dataset-carousel .carousel-control-next {
+            width: 6%;
+            opacity: 0.55;
+        }
+        .dataset-carousel .carousel-control-prev:hover,
+        .dataset-carousel .carousel-control-next:hover { opacity: 0.95; }
+        .dataset-carousel .carousel-control-prev-icon,
+        .dataset-carousel .carousel-control-next-icon {
+            background-color: rgba(30, 40, 60, 0.55);
+            border-radius: 50%;
+            padding: 0.85rem;
+            background-size: 55% 55%;
+        }
+        .dataset-carousel .carousel-indicators {
+            margin-bottom: 0.5rem;
+        }
+        .dataset-carousel .carousel-indicators [data-bs-target] {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #6c757d;
+            opacity: 0.45;
+            border: none;
+            margin: 0 3px;
+        }
+        .dataset-carousel .carousel-indicators .active {
+            background-color: #0d6efd;
+            opacity: 1;
+        }
+        .dataset-carousel-caption {
+            text-align: center;
+            font-size: 0.88rem;
+            color: #5a6470;
+            margin-top: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+<div id="all">
+
+    <!-- ===================== HEADER ===================== -->
+    <section class="bar bg-white no-mb padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading-light text-center mb-medium">
+                        <h1>Plan2Map: A Multimodal Benchmark for Document-Grounded Geospatial Boundary Reconstruction from Planning Records</h1>
+                    </div>
+
+                    <p class="text-center" style="font-size: 1.5rem;"><strong>2026</strong></p>
+
+                    <p class="lead text-md-center">
+                        <strong>Fabian Degen</strong><sup>* 1</sup>,
+                        <strong>Oishi Deb</strong><sup>* 1</sup>,
+                        <strong>Jindong Gu</strong><sup>2</sup>,
+                        <strong>Junchi Yu</strong><sup>1</sup>,
+                        <strong>Samuele Marro</strong><sup>1</sup>,
+                        <strong>Philip Torr</strong><sup>1</sup>,
+                        <strong>Jialin Yu</strong><sup>&dagger; 1</sup>
+                        <br>
+                        <span style="font-size: 0.9em;"><sup>*</sup> Joint 1st Author &nbsp;&nbsp; <sup>&dagger;</sup> Corresponding Author</span>
+                        <br>
+                        <strong style="color: brown;">
+                            <sup>1</sup>University of Oxford,
+                            <sup>2</sup>Google DeepMind
+                        </strong>
+                    </p>
+
+                    <p style="margin-top: 10px; text-align: center; font-size: 1.1em;">
+                        Corresponding Author: <span style="color: blue;">yu.jialin@outlook.com</span>
+                    </p>
+
+                    <p style="margin-top: 0px; text-align: center; font-size: 1.1em;">
+                        <span style="display: inline-flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                            <strong>
+                                <a href="#" style="background-color: #e0e0e0; color: blue; padding: 10px 20px; border-radius: 50px; text-decoration: underline;">Paper Link</a>
+                            </strong>
+                            <span style="font-size: 1.0em; background-color: #e0e0e0; padding: 10px 20px; border-radius: 50px;">Code Coming Soon</span>
+                            <span style="font-size: 1.0em; background-color: #e0e0e0; padding: 10px 20px; border-radius: 50px;">Dataset Coming Soon</span>
+                        </span>
+                    </p>
+
+                    <!-- TEASER (Figure 1 from the paper) -->
+                    <p class="lead">
+                        <div class="row text-center no-space">
+                            <div class="col-md-12">
+                                <div class="img-fluid">
+                                    <img src="Plan2Map_teaser.png" alt="Plan2Map overview" class="img-fluid" style="width: 75%;">
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+
+                    <p class="lead text-center">
+                        We introduce <strong style="color: blue;">Plan2Map</strong>, a 208-case multimodal benchmark for document-grounded geospatial boundary reconstruction from UK planning records. Given only a source planning document, a system must reconstruct a valid geospatial boundary from notice text, schedules, map plates, map labels, and boundary annotations; the reference GeoJSON is held out for scoring.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== ABSTRACT / MOTIVATION ===================== -->
+    <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Motivation</h2>
+                    <p class="lead mb-small">
+                        Planning records often answer a spatial question: <em>which area is subject to a particular rule?</em> For UK Article 4 Directions, the affected area is typically described through a legal notice and an accompanying map rather than provided as machine-readable geometry. Digital planning systems, however, need such geometry to check whether a site falls inside an affected area, compare restrictions, and audit records over time.
+                    </p>
+                    <p class="lead mb-small">
+                        The source documents usually provide only <em>indirect</em> spatial evidence: notice text, legal schedules, scanned or embedded map plates, map labels, coloured or hatched regions, and boundary annotations. Recovering the boundary is therefore not simply field extraction, but reconstruction of a structured spatial object from distributed textual, visual, and geographic evidence.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== DATASET ===================== -->
+    <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>The Plan2Map Benchmark</h2>
+                    <p class="lead mb-small">
+                        Plan2Map contains 208 manually reviewed UK Article 4 Direction records, spanning 1958–2025 and covering 29 local planning authorities across England. Each released case bundles three artefacts:
+                    </p>
+                    <ul class="lead">
+                        <li>The source planning <strong>PDF</strong> — text, schedules, maps, labels, and boundary annotations.</li>
+                        <li>A verified reference <strong>GeoJSON</strong> (Polygon or MultiPolygon), held out as the evaluation reference.</li>
+                        <li>A rendered <strong>location-map PNG</strong> overlaying the reference geometry on an OpenStreetMap basemap.</li>
+                    </ul>
+                    <p class="lead mb-small">
+                        Cases span scanned and born-digital documents, varied map quality, and boundaries ranging from simple parcels to irregular or multi-part geometries. Metadata covers local authority, site description, document quality (<span style="white-space:nowrap;">✅ Good</span> / <span style="white-space:nowrap;">⚠️ Bad</span>), document colour (<span style="white-space:nowrap;">📄 White</span> / <span style="white-space:nowrap;">📜 Yellow</span>), boundary shape, and shape complexity (<span style="white-space:nowrap;">🟢 Easy</span> / <span style="white-space:nowrap;">🟡 Medium</span> / <span style="white-space:nowrap;">🔴 Hard</span>).
+                    </p>
+
+                    <!-- ============ Auto-sliding dataset examples carousel ============ -->
+                    <h3 class="text-center" style="margin-top:1.5rem;">Examples from the Dataset</h3>
+                    <div id="datasetCarousel" class="carousel slide carousel-fade dataset-carousel"
+                         data-bs-ride="carousel" data-bs-interval="4000" data-bs-pause="hover" data-bs-wrap="true">
+
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#datasetCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Example 1"></button>
+                            <button type="button" data-bs-target="#datasetCarousel" data-bs-slide-to="1" aria-label="Example 2"></button>
+                            <button type="button" data-bs-target="#datasetCarousel" data-bs-slide-to="2" aria-label="Example 3"></button>
+                            <button type="button" data-bs-target="#datasetCarousel" data-bs-slide-to="3" aria-label="Example 4"></button>
+                            <button type="button" data-bs-target="#datasetCarousel" data-bs-slide-to="4" aria-label="Example 5"></button>
+                            <button type="button" data-bs-target="#datasetCarousel" data-bs-slide-to="5" aria-label="Example 6"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+
+                            <!-- Easy / Yellow / Good -->
+                            <div class="carousel-item active">
+                                <div class="slide-image-wrap">
+                                    <img src="Dataset_examples/A4DA05_Easy_Yellow_Good.png" alt="Plan2Map example — Easy complexity, Yellow document, Good quality">
+                                </div>
+                                <div class="badge-row">
+                                    <span class="meta-badge shape-easy">🟢 Easy</span>
+                                    <span class="meta-badge paper-yellow">📜 Yellow</span>
+                                    <span class="meta-badge quality-good">✅ Good</span>
+                                </div>
+                            </div>
+
+                            <!-- Medium / White / Good -->
+                            <div class="carousel-item">
+                                <div class="slide-image-wrap">
+                                    <img src="Dataset_examples/69_Easy_White_Good.png" alt="Plan2Map example — Medium complexity, White document, Good quality">
+                                </div>
+                                <div class="badge-row">
+                                    <span class="meta-badge shape-medium">🟢 Easy</span>
+                                    <span class="meta-badge paper-white">📄 White</span>
+                                    <span class="meta-badge quality-good">✅ Good</span>
+                                </div>
+                            </div>
+
+                            <!-- Medium / Yellow / Good -->
+                            <div class="carousel-item">
+                                <div class="slide-image-wrap">
+                                    <img src="Dataset_examples/A4DA01_Medium_Yellow_Good.png" alt="Plan2Map example — Medium complexity, Yellow document, Good quality">
+                                </div>
+                                <div class="badge-row">
+                                    <span class="meta-badge shape-medium">🟡 Medium</span>
+                                    <span class="meta-badge paper-yellow">📜 Yellow</span>
+                                    <span class="meta-badge quality-good">✅ Good</span>
+                                </div>
+                            </div>
+
+                            <!-- Medium / Yellow / Bad -->
+                            <div class="carousel-item">
+                                <div class="slide-image-wrap">
+                                    <img src="Dataset_examples/ARTICLE_260_Medium_Yellow_Bad.png" alt="Plan2Map example — Medium complexity, Yellow document, Bad quality">
+                                </div>
+                                <div class="badge-row">
+                                    <span class="meta-badge shape-medium">🟡 Medium</span>
+                                    <span class="meta-badge paper-yellow">📜 Yellow</span>
+                                    <span class="meta-badge quality-bad">⚠️ Bad</span>
+                                </div>
+                            </div>
+
+                            <!-- Hard / White / Good -->
+                            <div class="carousel-item">
+                                <div class="slide-image-wrap">
+                                    <img src="Dataset_examples/A4Ba1_Hard_White_Good.png" alt="Plan2Map example — Hard complexity, White document, Good quality">
+                                </div>
+                                <div class="badge-row">
+                                    <span class="meta-badge shape-hard">🔴 Hard</span>
+                                    <span class="meta-badge paper-white">📄 White</span>
+                                    <span class="meta-badge quality-good">✅ Good</span>
+                                </div>
+                            </div>
+
+                            <!-- Hard / White / Bad -->
+                            <div class="carousel-item">
+                                <div class="slide-image-wrap">
+                                    <img src="Dataset_examples/A4D6A2_A3_merged_Hard_White_Bad.png" alt="Plan2Map example — Hard complexity, White document, Bad quality">
+                                </div>
+                                <div class="badge-row">
+                                    <span class="meta-badge shape-hard">🔴 Hard</span>
+                                    <span class="meta-badge paper-white">📄 White</span>
+                                    <span class="meta-badge quality-bad">⚠️ Bad</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#datasetCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#datasetCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    <p class="dataset-carousel-caption">
+                        Representative cases across the 3&nbsp;&times;&nbsp;2&nbsp;&times;&nbsp;2 strata (shape complexity &times; document colour &times; quality). Auto-advances every 4&nbsp;seconds — hover to pause.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== GEOPLANAGENT APPROACH ===================== -->
+    <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>GeoPlanAgent</h2>
+                    <p class="lead mb-small">
+                        We propose <strong style="color: blue;">GeoPlanAgent</strong>, a document-grounded, geospatial-tool-in-the-loop system that decomposes the task into evidence extraction, localisation, map registration, boundary segmentation, projection, and verification. Rather than asking a multimodal model to generate a geospatial polygon in one pass, GeoPlanAgent mirrors the task structure with specialised components.
+                    </p>
+
+                    <h3>Pipeline</h3>
+                    <ol class="steps-list">
+                        <li><strong>Reader</strong> — single multimodal LLM call that converts the raw PDF into a typed record of spatial evidence (postcodes, grid references, addresses, road and place names, map labels, printed scale, page-level metadata).</li>
+                        <li><strong>Worker</strong> — produces the final GeoJSON via a tool-calling loop:
+                            <ol>
+                                <li><strong>Locate sub-agent</strong> — queries an OS Open Names gazetteer to return an approximate map centre with an uncertainty radius &sigma;.</li>
+                                <li><strong>Map-tile matching</strong> — aligns the planning map against OS Open Zoomstack tiles using MINIMA-LoFTR + RANSAC.</li>
+                                <li><strong>Boundary segmentation</strong> — SAM 3 with LoRA adapters, fine-tuned on planning maps with style-transfer augmentation.</li>
+                                <li><strong>Projection</strong> — projects the mask into WGS84 via the recovered affine transform.</li>
+                            </ol>
+                        </li>
+                        <li><strong>Critic (optional)</strong> — independent LLM that reviews the top-3 candidates post-commit and may approve, switch, or request re-localisation.</li>
+                    </ol>
+
+                    <div class="text-center mt-3">
+                        <a href="GeoPlanAgent_archi_fig.pdf" target="_blank" rel="noopener">
+                            <img src="GeoPlanAgent_archi_fig-1.png" alt="GeoPlanAgent workflow diagram" class="img-fluid" style="width: 95%; border: 1px solid #ddd;">
+                        </a>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.5rem;">GeoPlanAgent workflow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RESULTS ===================== -->
+    <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Results</h2>
+                    <p class="lead mb-small">
+                        On all 208 cases of Plan2Map, GeoPlanAgent reaches <strong>0.736 mean IoU</strong> and <strong>0.904 median IoU</strong>, with <strong>67.8%</strong> of cases at IoU&nbsp;&ge;&nbsp;0.8. Median centroid error is 4.6&nbsp;m and Acc@0.1D reaches 78.8%. Direct VLM-to-GeoJSON baselines are substantially weaker.
+                    </p>
+
+                    <h3>Main results (full 208-case benchmark)</h3>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th class="method" style="text-align:left;">Method</th>
+                                <th>%IoU&gt;0 &uarr;</th>
+                                <th>Mean IoU &uarr;</th>
+                                <th>Med IoU &uarr;</th>
+                                <th>%IoU&ge;0.8 &uarr;</th>
+                                <th>Err (m) &darr;</th>
+                                <th>Acc@0.1D &uarr;</th>
+                                <th>$/doc &darr;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="method">Gemini-3.1-Pro (VLM end-to-end)</td>
+                                <td>40.4%</td>
+                                <td>0.108</td>
+                                <td>0.000</td>
+                                <td>1.4%</td>
+                                <td>480</td>
+                                <td>9.6%</td>
+                                <td>0.106</td>
+                            </tr>
+                            <tr class="ours">
+                                <td class="method">GeoPlanAgent (ours)</td>
+                                <td>89.4%</td>
+                                <td>0.736</td>
+                                <td>0.904</td>
+                                <td>67.8%</td>
+                                <td>4.6</td>
+                                <td>78.8%</td>
+                                <td>0.043</td>
+                            </tr>
+                            <tr class="ours">
+                                <td class="method">GeoPlanAgent + Critic</td>
+                                <td>89.9%</td>
+                                <td>0.740</td>
+                                <td>0.906</td>
+                                <td>67.8%</td>
+                                <td>4.6</td>
+                                <td>78.8%</td>
+                                <td>0.045</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="lead mb-small">
+                        Component ablations show that (i) direct VLM-to-GeoJSON prediction remains unreliable, (ii) supervised LoRA fine-tuning of SAM 3 lifts boundary segmentation by &ge;&nbsp;0.30 pixel IoU over the vanilla baseline, and (iii) sliding-window map registration tightens median centroid error from 176&nbsp;m to 5&nbsp;m — a 38&times; improvement over the Locate stage alone.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== EXAMPLES PLACEHOLDER =====================
+    <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Qualitative Examples</h2>
+                    <p class="lead mb-small">
+                        Below we show source planning documents (left) paired with the reconstructed GeoJSON boundary projected onto an OpenStreetMap basemap (right).
+                    </p>
+
+                    <div class="row text-center d-flex align-items-center mb-medium">
+                        <div class="col-md-5 mb-small">
+                            <strong style="color: blue;">Source Planning Document</strong>
+                            <img src="examples/example1_pdf.png" alt="" class="img-fluid">
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <img src="examples/arrows/orange_arrow.webp" alt="Arrow" style="width: 80px; height: 65px;">
+                        </div>
+                        <div class="col-md-5 mb-small">
+                            <strong style="color: blue;">Reconstructed GeoJSON Boundary</strong>
+                            <img src="examples/example1_geojson.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <div class="row text-center d-flex align-items-center mb-medium">
+                        <div class="col-md-5 mb-small">
+                            <strong style="color: blue;">Source Planning Document</strong>
+                            <img src="examples/example2_pdf.png" alt="" class="img-fluid">
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <img src="examples/arrows/darkgreen_arrow.webp" alt="Arrow" style="width: 80px; height: 65px;">
+                        </div>
+                        <div class="col-md-5 mb-small">
+                            <strong style="color: blue;">Reconstructed GeoJSON Boundary</strong>
+                            <img src="examples/example2_geojson.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <p class="text-muted" style="font-size: 0.9rem;">
+                        Replace <code>examples/example*.png</code> with rendered figures from your evaluation outputs.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- ===================== BIBTEX ===================== -->
+    <section id="section-bibtex" class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>BibTeX</h2>
+<pre class="bibtex">@inproceedings{plan2map2026,
+  title     = {Plan2Map: A Multimodal Benchmark for Document-Grounded Geospatial Boundary Reconstruction from Planning Records},
+  author    = {Degen, Fabian and Deb, Oishi and Gu, Jindong and Yu, Junchi and Marro, Samuele and Torr, Philip and Yu, Jialin},
+  year      = {2026}
+}</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== DATA ATTRIBUTION ===================== -->
+    <section class="bar bg-white mb-0 padding-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Data Attribution</h2>
+                    <p class="lead mb-small" style="font-size: 0.95rem;">
+                        Contains OS data &copy; Crown copyright and database right 2026. Contains Royal Mail data &copy; Royal Mail copyright and database right 2026. Contains National Statistics data &copy; Crown copyright and database right 2026. Source planning documents and reference GeoJSON boundaries are reproduced from <a href="https://www.planning.data.gov.uk">planning.data.gov.uk</a> under the Open Government Licence v3.0.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <span>&copy; 2026 &mdash; University of Oxford. Page styled after the Articulate3D project template.</span>
+        </div>
+    </footer>
+
+</div>
+
+<!-- Bootstrap JS (optional, for any collapsible elements you add later) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
