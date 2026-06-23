@@ -77,7 +77,7 @@
             width: 3.25rem;
             height: 4px;
             border-radius: 4px;
-            background: linear-gradient(90deg, var(--accent) 0%, var(--highlight) 100%);
+            background: var(--accent);
         }
         h3 { font-weight: 700; font-size: 1.3rem; margin-top: 1.25rem; color: var(--oxford-blue); }
         .lead { font-size: 1.08rem; font-weight: 400; line-height: 1.75; color: var(--text-secondary); }
@@ -97,10 +97,7 @@
 
         /* Hero section */
         .hero {
-            background:
-                radial-gradient(ellipse at top left, rgba(37, 99, 235, 0.10) 0%, transparent 55%),
-                radial-gradient(ellipse at bottom right, rgba(249, 115, 22, 0.08) 0%, transparent 50%),
-                linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            background: #ffffff;
             position: relative;
             overflow: hidden;
             padding-top: 4rem;
@@ -114,13 +111,13 @@
             left: -10%;
             width: 60%;
             height: 200%;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
+            background: none;
             pointer-events: none;
         }
         .hero-content { position: relative; z-index: 1; }
         .venue-pill {
             display: inline-block;
-            background: linear-gradient(135deg, var(--oxford-blue) 0%, var(--accent) 100%);
+            background: var(--accent);
             color: #ffffff;
             padding: 0.35rem 1rem;
             border-radius: 999px;
@@ -131,7 +128,7 @@
             box-shadow: 0 4px 12px rgba(0, 33, 71, 0.25);
         }
         .hero h1 .accent {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--highlight) 100%);
+            background: var(--accent);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -201,7 +198,7 @@
             border: 1px solid transparent;
         }
         .btn-action.btn-primary-action {
-            background: linear-gradient(135deg, var(--oxford-blue) 0%, var(--accent) 100%);
+            background: var(--accent);
             color: #ffffff !important;
             box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28);
         }
@@ -240,7 +237,7 @@
         }
         .tagline .brand {
             font-weight: 700;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--highlight) 100%);
+            background: var(--accent);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -270,7 +267,7 @@
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--oxford-blue) 100%);
+            background: var(--accent);
             color: #ffffff;
             font-weight: 700;
             font-size: 0.92rem;
@@ -325,7 +322,7 @@
             text-align: center;
         }
         .results-table thead th {
-            background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+            background: #f1f5f9;
             font-weight: 700;
             color: var(--oxford-blue);
             font-size: 0.88rem;
@@ -336,12 +333,12 @@
         .results-table tbody tr { transition: background 0.15s ease; }
         .results-table tbody tr:hover { background-color: #f8fafc; }
         .results-table tr.ours {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.06) 0%, rgba(37, 99, 235, 0.03) 100%);
+            background: rgba(37, 99, 235, 0.06);
             font-weight: 600;
             color: var(--text-primary);
         }
         .results-table tr.ours:hover {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.10) 0%, rgba(37, 99, 235, 0.05) 100%);
+            background: rgba(37, 99, 235, 0.10);
         }
         .results-table tr.ours td.method { color: var(--accent); }
         .results-table td.method { text-align: left; font-weight: 500; }
@@ -355,7 +352,7 @@
             margin: 1.5rem 0;
         }
         .stat-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: #ffffff;
             border: 1px solid var(--border-soft);
             border-radius: 14px;
             padding: 1.25rem 1rem;
@@ -368,7 +365,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
             font-size: 1.85rem;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--oxford-blue) 100%);
+            background: var(--accent);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -386,7 +383,7 @@
         /* BibTeX block */
         .bibtex-wrap { position: relative; }
         pre.bibtex {
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            background: #0f172a;
             border: 1px solid #1e293b;
             border-radius: 12px;
             padding: 1.5rem 1.75rem;
@@ -421,7 +418,7 @@
         }
 
         footer {
-            background: linear-gradient(135deg, var(--oxford-blue) 0%, #0a1929 100%);
+            background: var(--oxford-blue);
             color: #cbd5e1;
             padding: 2rem 0;
             text-align: center;
@@ -436,7 +433,7 @@
             margin: 1.75rem auto 0.5rem auto;
             border-radius: 16px;
             overflow: hidden;
-            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+            background: #ffffff;
             border: 1px solid var(--border-soft);
             box-shadow: var(--shadow-lg);
         }
@@ -527,7 +524,318 @@
             color: #5a6470;
             margin-top: 0.3rem;
         }
-    </style>
+    
+/* ===== Interactive pipeline + MINIMA matcher (ported from demo, restyled) ===== */
+.p2m-viz{
+  --ink:#0f172a;--ink-soft:#475569;--muted:#64748b;--muted-soft:#94a3b8;
+  --paper:#f8fafc;--cream:#f8fafc;--panel:#ffffff;--line:#e2e8f0;--line-soft:#eef2f7;
+  --warm:#f97316;--warm-ink:#c2410c;
+  --blue:#dcebf6;--blue-ink:#1e5c82;--green:#dff0e6;--green-ink:#236a4a;
+  --amber:#f6e5ba;--amber-ink:#83560e;--violet:#ebe3f4;--violet-ink:#5e427a;
+  --slate:#e7edf1;--slate-ink:#3c5364;--rose:#f4dfe3;--rose-ink:#873145;
+  --radius:14px;--radius-lg:18px;
+  --shadow-sm:0 1px 3px rgba(15,23,42,0.06);--shadow:0 4px 16px rgba(15,23,42,0.08);--shadow-lg:0 20px 40px rgba(15,23,42,0.10);
+  margin-top:2.5rem;
+}
+.p2m-viz .stage-detail h4{font-family:'Plus Jakarta Sans','Inter',sans-serif;}
+.matcher-reveal{max-height:0;opacity:0;overflow:hidden;margin-top:0;transition:max-height .55s ease,opacity .4s ease,margin-top .4s ease;}
+.matcher-reveal.is-open{max-height:4000px;opacity:1;margin-top:18px;}
+.pipeline-wrap {
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.pipeline-diagram { width: 100%; }
+.pipeline-diagram svg { width: 100%; height: auto; display: block; }
+
+.stage-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 18px;
+}
+.stage-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.stage-btn:hover { color: var(--ink); border-color: var(--ink); }
+.stage-btn.is-active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.stage-btn-ghost { margin-left: auto; }
+
+.stage-detail {
+  background: var(--cream);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  min-height: 130px;
+}
+.stage-detail h4 {
+  margin: 0 0 6px;
+  font-family: Newsreader, ui-serif, Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.stage-detail .stage-kv {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+.stage-detail .stage-kv dt {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+  font-weight: 700;
+  padding-top: 3px;
+}
+.stage-detail .stage-kv dd { margin: 0; color: var(--ink-soft); }
+.stage-detail .stage-kv code { background: rgba(28,37,46,0.07); }
+
+/* SVG diagram node + arrow styling */
+.diagram-node rect, .diagram-node-fill {
+  fill: var(--panel);
+  stroke: var(--line);
+  stroke-width: 1.5;
+  transition: fill 0.4s ease, stroke 0.4s ease, stroke-width 0.4s ease;
+}
+.diagram-node text { fill: var(--ink); font-weight: 600; font-size: 13px; }
+.diagram-node .node-sub { fill: var(--muted); font-weight: 500; font-size: 11px; }
+
+.diagram-node.dim rect, .diagram-node.dim .diagram-node-fill {
+  fill: #fafaf6; stroke: var(--line-soft);
+}
+.diagram-node.dim text { fill: var(--muted-soft); }
+
+.diagram-node.is-active rect, .diagram-node.is-active .diagram-node-fill {
+  stroke-width: 2.4;
+}
+.diagram-node.is-active.color-blue   rect, .diagram-node.is-active.color-blue   .diagram-node-fill { fill: var(--blue);   stroke: var(--blue-ink); }
+.diagram-node.is-active.color-green  rect, .diagram-node.is-active.color-green  .diagram-node-fill { fill: var(--green);  stroke: var(--green-ink); }
+.diagram-node.is-active.color-amber  rect, .diagram-node.is-active.color-amber  .diagram-node-fill { fill: var(--amber);  stroke: var(--amber-ink); }
+.diagram-node.is-active.color-violet rect, .diagram-node.is-active.color-violet .diagram-node-fill { fill: var(--violet); stroke: var(--violet-ink); }
+.diagram-node.is-active.color-slate  rect, .diagram-node.is-active.color-slate  .diagram-node-fill { fill: var(--slate);  stroke: var(--slate-ink); }
+.diagram-node.is-active.color-rose   rect, .diagram-node.is-active.color-rose   .diagram-node-fill { fill: var(--rose);   stroke: var(--rose-ink); }
+.diagram-node.is-active text { fill: var(--ink); }
+
+.diagram-arrow {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+  transition: stroke 0.4s ease, stroke-width 0.4s ease, opacity 0.4s ease;
+}
+.diagram-arrow.is-active {
+  stroke: var(--warm);
+  stroke-width: 3.2;
+  filter: drop-shadow(0 0 6px rgba(205, 111, 31, 0.45));
+}
+.arrow-head { fill: var(--line); transition: fill 0.4s ease; }
+.arrow-head.is-active { fill: var(--warm); }
+.diagram-arrow.dashed { stroke-dasharray: 5 5; }
+
+.io-pill rect { stroke: var(--ink); fill: #fff; stroke-width: 1.5; }
+.io-pill text { fill: var(--ink); font-weight: 700; font-size: 12px; }
+.slider-wrap {
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  box-shadow: var(--shadow);
+}
+
+.slider-stage {
+  position: relative;
+}
+.slider-grid {
+  display: grid;
+  /* Track widths match the image aspect ratios so display:image scale is
+     identical across panels — left/right show the same metres-per-pixel
+     and the planning map matches the green window 1:1 in displayed size.
+     resized_map is 723 wide, tile_canvas is 1792 wide  →  723 : 1792. */
+  grid-template-columns: minmax(0, 723fr) minmax(0, 1792fr);
+  gap: 20px;
+  align-items: start;
+}
+.slider-panel {
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 14px;
+  border: 1px solid var(--line-soft);
+  /* Flex column for the caption + image stack, but DO NOT stretch the
+     image container — that was forcing the planning-map img to fill the
+     panel height and break aspect ratio. */
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+}
+.slider-cap {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.slider-cap code { background: rgba(28, 37, 46, 0.07); font-size: 0.92em; }
+.slider-img {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  /* Block layout — no flex stretching. The image dictates the height,
+     so the natural aspect ratio is preserved. */
+}
+.slider-img img { width: 100%; height: auto; display: block; }
+.slider-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* Top-level overlay that draws correspondence lines spanning both panels */
+.slider-corr-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.slider-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 14px;
+}
+.ctrl {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.ctrl:hover { background: var(--cream); }
+.ctrl-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.ctrl-primary:hover { background: var(--warm); border-color: var(--warm); color: #fff; }
+.ctrl-spacer { flex: 1; }
+
+.ctrl-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12px;
+  background: var(--cream);
+  border: 1px solid var(--line-soft);
+  padding: 9px 16px;
+  border-radius: var(--radius);
+}
+.ctrl-readout > div { display: flex; flex-direction: column; gap: 2px; }
+.ctrl-readout span { color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 10px; font-weight: 700; }
+.ctrl-readout b { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 14px; color: var(--ink); transition: color 0.15s ease; }
+.rd-inl.toow   { color: #aa3030; }
+.rd-inl.weak   { color: #b8860b; }
+.rd-inl.ok     { color: #6a5a10; }
+.rd-inl.strong { color: var(--green-ink); font-weight: 700; }
+
+.slider-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 10px;
+}
+.tier {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.tier-toow   { background: #f4dfe3; color: #873145; }
+.tier-weak   { background: #f6e5ba; color: #83560e; }
+.tier-ok     { background: var(--cream); color: var(--ink); border: 1px solid var(--line); }
+.tier-strong { background: var(--green); color: var(--green-ink); }
+
+.slider-explainer {
+  display: grid;
+  grid-template-columns: minmax(0, 760px);
+  gap: 16px;
+  margin-top: 18px;
+}
+.ex { font-size: 14px; color: var(--ink-soft); }
+.ex .ex-h { font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.ex p { margin: 0; }
+.ex .ex-caveat { margin-top: 10px; font-size: 12.5px; font-style: italic; color: var(--ink-soft); opacity: 0.9; }
+
+/* ===== Pipeline flow strip + per-stage input -> output ===== */
+.p2m-viz .pipeline-flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;margin-bottom:24px;}
+.p2m-viz .flow-chip{display:inline-flex;align-items:center;gap:9px;background:var(--panel);border:1.5px solid var(--line);color:var(--ink-soft);border-radius:12px;padding:8px 15px 8px 8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s;}
+.p2m-viz .flow-chip:hover{transform:translateY(-1px);border-color:var(--muted);}
+.p2m-viz .flow-n{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:8px;background:var(--cream);color:var(--muted);font-size:13px;font-weight:700;transition:background .15s,color .15s;}
+.p2m-viz .flow-chip.is-active{box-shadow:var(--shadow);}
+.p2m-viz .flow-chip.is-active.color-blue{border-color:var(--blue-ink);}    .p2m-viz .flow-chip.is-active.color-blue   .flow-n{background:var(--blue);color:var(--blue-ink);}
+.p2m-viz .flow-chip.is-active.color-green{border-color:var(--green-ink);}  .p2m-viz .flow-chip.is-active.color-green  .flow-n{background:var(--green);color:var(--green-ink);}
+.p2m-viz .flow-chip.is-active.color-amber{border-color:var(--amber-ink);}  .p2m-viz .flow-chip.is-active.color-amber  .flow-n{background:var(--amber);color:var(--amber-ink);}
+.p2m-viz .flow-chip.is-active.color-violet{border-color:var(--violet-ink);}.p2m-viz .flow-chip.is-active.color-violet .flow-n{background:var(--violet);color:var(--violet-ink);}
+.p2m-viz .flow-chip.is-active.color-slate{border-color:var(--slate-ink);}  .p2m-viz .flow-chip.is-active.color-slate  .flow-n{background:var(--slate);color:var(--slate-ink);}
+.p2m-viz .flow-chip.is-active.color-rose{border-color:var(--rose-ink);}    .p2m-viz .flow-chip.is-active.color-rose   .flow-n{background:var(--rose);color:var(--rose-ink);}
+.p2m-viz .flow-sep{color:var(--muted-soft);font-size:15px;}
+.p2m-viz .flow-detail{display:grid;grid-template-columns:minmax(110px,0.9fr) auto minmax(230px,1.5fr) auto minmax(110px,0.9fr);align-items:center;gap:16px;border-left:4px solid var(--line);}
+.p2m-viz .flow-detail.color-blue{border-left-color:var(--blue-ink);}
+.p2m-viz .flow-detail.color-green{border-left-color:var(--green-ink);}
+.p2m-viz .flow-detail.color-amber{border-left-color:var(--amber-ink);}
+.p2m-viz .flow-detail.color-violet{border-left-color:var(--violet-ink);}
+.p2m-viz .flow-detail.color-slate{border-left-color:var(--slate-ink);}
+.p2m-viz .flow-detail.color-rose{border-left-color:var(--rose-ink);}
+.p2m-viz .flow-io{margin:0;}
+.p2m-viz .flow-io img{width:100%;border-radius:10px;border:1px solid var(--line);box-shadow:var(--shadow-sm);display:block;}
+.p2m-viz .flow-io figcaption{font-size:10.5px;color:var(--muted);text-align:center;margin-top:7px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;line-height:1.3;}
+.p2m-viz .flow-io-text{display:flex;align-items:center;justify-content:center;min-height:90px;}
+.p2m-viz .flow-io-chip{background:var(--cream);border:1px dashed var(--line);border-radius:10px;padding:16px 14px;text-align:center;font-size:13px;font-weight:600;color:var(--ink-soft);line-height:1.4;}
+.p2m-viz .flow-arrow{color:var(--muted-soft);font-size:24px;text-align:center;}
+.p2m-viz .flow-mid h4{margin:3px 0 7px;font-family:'Plus Jakarta Sans','Inter',sans-serif;font-size:19px;color:var(--ink);}
+.p2m-viz .flow-mid p{margin:0;font-size:14px;line-height:1.6;color:var(--ink-soft);}
+.p2m-viz .flow-mid-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.p2m-viz .flow-mid code{background:rgba(15,23,42,0.06);padding:1px 5px;border-radius:5px;font-size:0.88em;font-family:'JetBrains Mono',monospace;}
+.p2m-viz .flow-mid b{color:var(--ink);font-weight:700;}
+.p2m-viz .flow-detail .stage-kv{margin-top:12px;}
+@media(max-width:780px){.p2m-viz .flow-detail{grid-template-columns:1fr;}.p2m-viz .flow-arrow{transform:rotate(90deg);font-size:20px;}}
+
+.p2m-viz .flow-io-pages{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:208px;}
+.p2m-viz .pdf-pages{position:relative;width:236px;height:196px;}
+.p2m-viz .pdf-pages .pg{position:absolute;top:50%;width:130px;border-radius:4px;border:1px solid var(--line);background:#fff;box-shadow:0 3px 10px rgba(15,23,42,0.14);}
+.p2m-viz .pdf-pages .pg-back{left:40%;transform:translateY(-50%) rotate(-5deg);}
+.p2m-viz .pdf-pages .pg-front{left:6%;transform:translateY(-50%) rotate(3deg);}
+.p2m-viz .flow-io-locin{display:flex;flex-direction:column;align-items:center;}
+.p2m-viz .locin-map{width:86px;border-radius:4px;border:1px solid var(--line);box-shadow:0 1px 3px rgba(15,23,42,0.12);margin-bottom:9px;}
+.p2m-viz .pdfinfo{margin:0;width:100%;max-width:210px;display:flex;flex-direction:column;gap:4px;}
+.p2m-viz .pdfinfo > div{display:flex;gap:8px;font-size:11px;line-height:1.3;}
+.p2m-viz .pdfinfo dt{flex:0 0 50px;color:var(--ink-soft);font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:9px;padding-top:1.5px;}
+.p2m-viz .pdfinfo dd{margin:0;color:var(--ink);font-weight:500;}
+.p2m-viz .flow-io-area{display:flex;flex-direction:column;align-items:center;}
+.p2m-viz .area-svg{width:100%;max-width:165px;height:auto;}
+</style>
 </head>
 <body>
 <div id="all">
@@ -782,6 +1090,75 @@
                             </a>
                             <p class="figure-caption">GeoPlanAgent workflow.</p>
                         </div>
+
+                        <!-- ===== Interactive pipeline (ported + restyled); Match stage opens the MINIMA slider ===== -->
+                        <div class="p2m-viz">
+                          <h3>Explore the pipeline</h3>
+                          <p class="lead" style="margin-bottom:1.25rem;">Click any stage of the pipeline to expand it and look at the inputs and outputs of that step. The <strong>Map&nbsp;registration</strong> page opens an interactive animation showing how MINIMA-LoFTR is used to refine the initial location from the Locate sub-agent.</p>
+                          <div class="pipeline-wrap">
+                            <div id="pipelineFlow" class="pipeline-flow"></div>
+                            <div id="stageDetail" class="stage-detail"></div>
+                            <div id="matcherReveal" class="matcher-reveal">
+    <div class="slider-wrap">
+      <div class="slider-stage">
+        <div class="slider-grid">
+
+          <div class="slider-panel">
+            <div class="slider-cap">Planning map (case <code>12:00116:ART4</code>)</div>
+            <div id="slideMapWrap" class="slider-img">
+              <img id="slideMapImg" src="assets/slider_data/resized_map.png" alt="Planning map of Loddon, Norfolk, resized to match OS tile pixel scale" />
+              <svg id="slideMapOverlay" class="slider-overlay" preserveAspectRatio="none"></svg>
+            </div>
+          </div>
+
+          <div class="slider-panel">
+            <div class="slider-cap">OS Open Zoomstack tile canvas (z17, 7&times;9 tiles &asymp; 1.3&times;1.7 km)</div>
+            <div id="slideTilesWrap" class="slider-img">
+              <img id="slideTilesImg" src="assets/slider_data/tile_canvas.png" alt="OS Open Zoomstack tile canvas around Loddon" />
+              <svg id="slideTilesOverlay" class="slider-overlay" preserveAspectRatio="none"></svg>
+            </div>
+          </div>
+
+        </div>
+        <!-- Correspondence lines span both panels — drawn on a top-level overlay -->
+        <svg id="slideCorrOverlay" class="slider-corr-overlay"></svg>
+      </div>
+
+      <div class="slider-controls">
+        <button class="ctrl ctrl-primary" id="slidePlay">&#9655; Play</button>
+        <button class="ctrl" id="slideStep">Step &rarr;</button>
+        <button class="ctrl" id="slideReset">Reset</button>
+        <div class="ctrl-spacer"></div>
+        <div class="ctrl-readout">
+          <div><span>window</span><b id="rdWindow">0&thinsp;/&thinsp;0</b></div>
+          <div><span>zoom</span><b id="rdZoom">&mdash;</b></div>
+          <div><span>n_inliers</span><b id="rdInliers" class="rd-inl">0</b></div>
+          <div><span>best so far</span><b id="rdBest">0</b></div>
+        </div>
+      </div>
+
+      <div class="slider-explainer">
+        <div class="ex">
+          <div class="ex-h">How the map is matched</div>
+          <p>
+            Locate gave a rough area; this step finds exactly where the planning map sits on the
+            ground. MINIMA-LoFTR looks for the same distinctive features &mdash; road junctions,
+            field edges, building corners &mdash; in both the planning map and the Ordnance Survey
+            basemap, and slides the map across the basemap one step at a time. The number on each
+            window is how many of those feature matches actually line up (its <em>inliers</em>):
+            more is better, and the strongest window wins, shown in gold &mdash; that alignment is
+            what lets the boundary be read off in real-world coordinates.
+          </p>
+          <p class="ex-caveat">This is a simplified picture: in the full pipeline the matcher searches over several zoom levels and re-ranks the strongest candidates with additional metrics before committing to one. See the paper for the full details.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+                            </div>
+                          </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -974,5 +1351,6 @@
 <!-- Bootstrap JS (optional, for any collapsible elements you add later) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="assets/viz.js"></script>
 </body>
 </html>
